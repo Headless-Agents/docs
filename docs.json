@@ -47,9 +47,9 @@
           {
             "group": "Endpoints",
             "pages": [
-              "api-reference/endpoints/health",
-              "api-reference/endpoints/call-agent",
-              "api-reference/endpoints/agent-stats"
+              "api-reference/endpoint/health",
+              "api-reference/endpoint/call-agent",
+              "api-reference/endpoint/agent-stats"
             ]
           }
         ]
