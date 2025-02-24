@@ -1,81 +1,101 @@
 {
-  "$schema": "https://mintlify.com/schema.json",
-  "name": "Headless Agents",
-  "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Mint Starter Kit",
+  "colors": {
+    "primary": "#16A34A",
+    "light": "#07C983",
+    "dark": "#15803D"
   },
   "favicon": "/favicon.svg",
-  "theme": "willow",
-  "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373"
-  },
-  "topbarLinks": [
-    {
-      "name": "Support",
-      "url": "mailto:support@headlessagents.ai"
-    }
-  ],
-  "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.headlessagents.ai"
-  },
-  "api": {
-    "mdx": {
-      "server": "https://api.headlessagents.ai",
-      "auth": {
-        "method": "key",
-        "name": "X-API-Key"
-      }
-    }
-  },
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
-    }
-  ],
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://headlessagents.ai/docs"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://headlessagents.ai/community"
-    }
-  ],
   "navigation": {
-    "languages": [],
-    "versions": [],
-    "tabs": [],
-    "dropdowns": [],
-    "anchors": [],
-    "groups": [
+    "tabs": [
       {
-        "group": "Get Started",
-        "pages": ["introduction", "quickstart", "development"]
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "development"
+            ]
+          },
+          {
+            "group": "Essentials",
+            "pages": [
+              "essentials/markdown",
+              "essentials/code",
+              "essentials/images",
+              "essentials/settings",
+              "essentials/navigation",
+              "essentials/reusable-snippets"
+            ]
+          }
+        ]
       },
       {
-        "group": "API Reference",
-        "pages": ["api-reference/introduction", "api-reference/authentication"]
-      },
-      {
-        "group": "Endpoints",
-        "pages": [
-          "api-reference/endpoints/health",
-          "api-reference/endpoints/call-agent",
-          "api-reference/endpoints/agent-stats"
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "API Documentation",
+            "pages": [
+              "api-reference/introduction"
+            ]
+          },
+          {
+            "group": "Endpoint Examples",
+            "pages": [
+              "api-reference/endpoint/get",
+              "api-reference/endpoint/create",
+              "api-reference/endpoint/delete"
+            ]
+          }
         ]
       }
     ],
-    "pages": []
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Documentation",
+          "href": "https://mintlify.com/docs",
+          "icon": "book-open-cover"
+        },
+        {
+          "anchor": "Community",
+          "href": "https://mintlify.com/community",
+          "icon": "slack"
+        },
+        {
+          "anchor": "Blog",
+          "href": "https://mintlify.com/blog",
+          "icon": "newspaper"
+        }
+      ]
+    }
   },
-  "footerSocials": {
-    "github": "https://github.com/headlessagents"
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:hi@mintlify.com"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://dashboard.mintlify.com"
+    }
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/mintlify",
+      "github": "https://github.com/mintlify",
+      "linkedin": "https://linkedin.com/company/mintlify"
+    }
   }
 }
