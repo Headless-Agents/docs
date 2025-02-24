@@ -10,11 +10,7 @@
   "colors": {
     "primary": "#0D9373",
     "light": "#07C983",
-    "dark": "#0D9373",
-    "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
-    }
+    "dark": "#0D9373"
   },
   "topbarLinks": [
     {
@@ -53,31 +49,24 @@
       "url": "https://headlessagents.ai/community"
     }
   ],
-  "navigation": [
-    {
-      "group": "Get Started",
-      "pages": [
-        "introduction",
-        "quickstart",
-        "development"
-      ]
+  "navigation": {
+    "get-started": {
+      "name": "Get Started",
+      "pages": ["introduction", "quickstart", "development"]
     },
-    {
-      "group": "API Reference",
-      "pages": [
-        "api-reference/introduction",
-        "api-reference/authentication"
-      ]
+    "api-reference": {
+      "name": "API Reference",
+      "pages": ["api-reference/introduction", "api-reference/authentication"]
     },
-    {
-      "group": "Endpoints",
+    "endpoints": {
+      "name": "Endpoints",
       "pages": [
         "api-reference/endpoints/health",
         "api-reference/endpoints/call-agent",
         "api-reference/endpoints/agent-stats"
       ]
     }
-  ],
+  },
   "footerSocials": {
     "github": "https://github.com/headlessagents"
   }
