@@ -1,0 +1,24 @@
+---
+title: 'Health Check'
+openapi: 'GET /health'
+---
+
+Check if the API is up and running. This endpoint does not require authentication.
+
+### Endpoint
+
+```bash
+GET /health
+```
+
+### Response
+
+<ResponseField name="status" type="string" required>
+  Will return "healthy" if the API is functioning properly
+</ResponseField>
+
+```json
+{
+  "status": "healthy"
+}
+``` 

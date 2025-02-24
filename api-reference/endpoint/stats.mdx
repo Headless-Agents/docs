@@ -1,30 +1,7 @@
 ---
-title: 'GET Endpoints'
+title: 'Agent Statistics'
+openapi: 'GET /agent/{agent_id}/stats'
 ---
-
-## Check API Health
-
-Check if the API is up and running. This endpoint does not require authentication.
-
-### Endpoint
-
-```bash
-GET /health
-```
-
-### Response
-
-<ResponseField name="status" type="string" required>
-  Will return "healthy" if the API is functioning properly
-</ResponseField>
-
-```json
-{
-  "status": "healthy"
-}
-```
-
-## Get Agent Statistics
 
 Retrieve usage statistics for a specific agent.
 
@@ -93,4 +70,4 @@ GET /agent/{agent_id}/stats
   "total_messages": 100,
   "stats_generated_at": "2025-02-23T21:01:00.750638+00:00"
 }
-```
+``` 
