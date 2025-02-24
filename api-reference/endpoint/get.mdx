@@ -1,4 +1,96 @@
 ---
-title: 'Get Plants'
-openapi: 'GET /plants'
+title: 'GET Endpoints'
 ---
+
+## Check API Health
+
+Check if the API is up and running. This endpoint does not require authentication.
+
+### Endpoint
+
+```bash
+GET /health
+```
+
+### Response
+
+<ResponseField name="status" type="string" required>
+  Will return "healthy" if the API is functioning properly
+</ResponseField>
+
+```json
+{
+  "status": "healthy"
+}
+```
+
+## Get Agent Statistics
+
+Retrieve usage statistics for a specific agent.
+
+### Endpoint
+
+```bash
+GET /agent/{agent_id}/stats
+```
+
+### Parameters
+
+<ParamField path="agent_id" type="string" required>
+  ID of the agent to get statistics for
+</ParamField>
+
+### Response
+
+<ResponseField name="message_distribution" type="object" required>
+  <Expandable title="Properties">
+    <ResponseField name="sample_size" type="integer">Number of messages in the sample</ResponseField>
+    <ResponseField name="assistant_messages" type="integer">Number of assistant messages</ResponseField>
+    <ResponseField name="user_messages" type="integer">Number of user messages</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="response_time" type="object" required>
+  <Expandable title="Properties">
+    <ResponseField name="sample_size" type="integer">Number of responses in the sample</ResponseField>
+    <ResponseField name="min_seconds" type="number">Minimum response time in seconds</ResponseField>
+    <ResponseField name="average_seconds" type="number">Average response time in seconds</ResponseField>
+    <ResponseField name="max_seconds" type="number">Maximum response time in seconds</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="agent_id" type="string" required>
+  ID of the agent
+</ResponseField>
+
+<ResponseField name="total_conversations" type="integer">
+  Total number of conversations
+</ResponseField>
+
+<ResponseField name="total_messages" type="integer">
+  Total number of messages
+</ResponseField>
+
+<ResponseField name="stats_generated_at" type="string">
+  Timestamp when these statistics were generated
+</ResponseField>
+
+```json
+{
+  "message_distribution": {
+    "sample_size": 5,
+    "assistant_messages": 5,
+    "user_messages": 5
+  },
+  "response_time": {
+    "sample_size": 5,
+    "min_seconds": 3.77,
+    "average_seconds": 17.41,
+    "max_seconds": 24.99
+  },
+  "agent_id": "2ec10f28abac4e01",
+  "total_conversations": 610,
+  "total_messages": 100,
+  "stats_generated_at": "2025-02-23T21:01:00.750638+00:00"
+}
+```

@@ -1,54 +1,346 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.0",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
+    "title": "Headless Agents API",
+    "description": "The Headless Agents API allows you to interact with AI agents programmatically. \nThis API provides endpoints for health checking, calling agents, and retrieving agent statistics.\n\n## Authentication\nAll API requests (except /health) require authentication using your Headless Agents API key provided as an `X-API-Key` header.\n\nExample:\n```bash\ncurl -H \"X-API-Key: your_api_key\" https://api.headlessagents.ai/call/your_agent_id\n```",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Headless Agents Support",
+      "url": "https://headlessagents.ai",
+      "email": "support@headlessagents.ai"
+    }
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "https://api.headlessagents.ai",
+      "description": "Production server"
     }
   ],
   "security": [
     {
-      "bearerAuth": []
+      "ApiKeyAuth": []
     }
   ],
-  "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key",
+        "description": "API key provided by Headless Agents"
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "string",
+            "description": "Error message detailing what went wrong"
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
+        },
+        "required": [
+          "detail"
+        ]
+      },
+      "HealthResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "healthy"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "AgentCallRequest": {
+        "type": "object",
+        "properties": {
+          "request": {
+            "type": "string",
+            "description": "The prompt or request to send to the agent"
+          },
+          "conversation_id": {
+            "type": "string",
+            "description": "Optional conversation ID for continuing an existing conversation"
+          }
+        },
+        "required": [
+          "request"
+        ]
+      },
+      "AgentCallResponse": {
+        "type": "object",
+        "properties": {
+          "thread_id": {
+            "type": "string",
+            "description": "Unique identifier for this interaction thread"
+          },
+          "conversation_id": {
+            "type": "string",
+            "description": "Identifier for the conversation"
+          },
+          "agent_id": {
+            "type": "string",
+            "description": "ID of the agent that was called"
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Whether the call was successful"
+          },
+          "response": {
+            "type": "string",
+            "description": "The agent's response text"
+          },
+          "function_result": {
+            "type": "object",
+            "description": "Optional structured data returned by the agent, null if no structured data",
+            "nullable": true,
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "thread_id",
+          "conversation_id",
+          "agent_id",
+          "success",
+          "response",
+          "function_result"
+        ]
+      },
+      "AgentStats": {
+        "type": "object",
+        "properties": {
+          "message_distribution": {
+            "type": "object",
+            "properties": {
+              "sample_size": {
+                "type": "integer"
+              },
+              "assistant_messages": {
+                "type": "integer"
+              },
+              "user_messages": {
+                "type": "integer"
+              }
+            }
+          },
+          "response_time": {
+            "type": "object",
+            "properties": {
+              "sample_size": {
+                "type": "integer"
+              },
+              "min_seconds": {
+                "type": "number",
+                "format": "float"
+              },
+              "average_seconds": {
+                "type": "number",
+                "format": "float"
+              },
+              "max_seconds": {
+                "type": "number",
+                "format": "float"
+              }
+            }
+          },
+          "agent_id": {
+            "type": "string"
+          },
+          "turns_per_conversation": {
+            "type": "object",
+            "properties": {
+              "sample_size": {
+                "type": "integer"
+              },
+              "average": {
+                "type": "number",
+                "format": "float"
+              }
+            }
+          },
+          "message_length": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "type": "object",
+                "properties": {
+                  "sample_size": {
+                    "type": "integer"
+                  },
+                  "average": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "min": {
+                    "type": "integer"
+                  },
+                  "max": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "assistant": {
+                "type": "object",
+                "properties": {
+                  "sample_size": {
+                    "type": "integer"
+                  },
+                  "average": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "min": {
+                    "type": "integer"
+                  },
+                  "max": {
+                    "type": "integer"
                   }
                 }
               }
             }
           },
-          "400": {
-            "description": "Unexpected error",
+          "total_conversations": {
+            "type": "integer"
+          },
+          "messages_per_conversation": {
+            "type": "object",
+            "properties": {
+              "average": {
+                "type": "number",
+                "format": "float"
+              },
+              "max": {
+                "type": "integer"
+              },
+              "min": {
+                "type": "integer"
+              }
+            }
+          },
+          "total_messages": {
+            "type": "integer"
+          },
+          "stats_generated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "usage_timeline": {
+            "type": "object",
+            "properties": {
+              "last_7d": {
+                "type": "integer"
+              },
+              "first_conversation": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "last_24h": {
+                "type": "integer"
+              },
+              "last_conversation": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "last_30d": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "required": [
+          "agent_id",
+          "stats_generated_at"
+        ]
+      }
+    }
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Check API health",
+        "description": "Simple endpoint to check if the API is up and running. No authentication required.",
+        "operationId": "checkHealth",
+        "security": [],
+        "tags": [
+          "Health"
+        ],
+        "responses": {
+          "200": {
+            "description": "API is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                },
+                "example": {
+                  "status": "healthy"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/call/{agent_id}": {
+      "post": {
+        "summary": "Call an agent",
+        "description": "Send a request to an agent and get their response",
+        "operationId": "callAgent",
+        "tags": [
+          "Agents"
+        ],
+        "parameters": [
+          {
+            "name": "agent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the agent to call"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentCallRequest"
+              },
+              "example": {
+                "request": "What is the weather like in San Francisco?",
+                "conversation_id": "bc8e506e4a6f49ad"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response from agent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentCallResponse"
+                },
+                "example": {
+                  "thread_id": "50cc9455b84d48ffad6b4c9fd41b561e",
+                  "conversation_id": "bc8e506e4a6f49ad",
+                  "agent_id": "2ec10f28abac4e01",
+                  "success": true,
+                  "response": "I am a greeting assistant designed to help with welcoming users. I cannot provide Zillow links or real estate information. For Zillow listings, I recommend:\n\n1. Visiting Zillow.com directly\n2. Using Zillow's search function to find specific properties\n3. Contacting a real estate agent\n\nIs there anything else I can help you with regarding greetings or welcomes?",
+                  "function_result": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -56,35 +348,19 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
           },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "plant response",
+          "404": {
+            "description": "Agent not found",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
           },
-          "400": {
-            "description": "unexpected error",
+          "500": {
+            "description": "Internal server error",
             "content": {
               "application/json": {
                 "schema": {
@@ -96,28 +372,105 @@
         }
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
+    "/agent/{agent_id}/stats": {
+      "get": {
+        "summary": "Get agent statistics",
+        "description": "Retrieve usage statistics for a specific agent",
+        "operationId": "getAgentStats",
+        "tags": [
+          "Agents"
+        ],
         "parameters": [
           {
-            "name": "id",
+            "name": "agent_id",
             "in": "path",
-            "description": "ID of plant to delete",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
+              "type": "string"
+            },
+            "description": "ID of the agent to get statistics for"
           }
         ],
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
+          "200": {
+            "description": "Agent statistics retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentStats"
+                },
+                "example": {
+                  "message_distribution": {
+                    "sample_size": 5,
+                    "assistant_messages": 5,
+                    "user_messages": 5
+                  },
+                  "response_time": {
+                    "sample_size": 5,
+                    "min_seconds": 3.77,
+                    "average_seconds": 17.41,
+                    "max_seconds": 24.99
+                  },
+                  "agent_id": "2ec10f28abac4e01",
+                  "turns_per_conversation": {
+                    "sample_size": 5,
+                    "average": 1.0
+                  },
+                  "message_length": {
+                    "user": {
+                      "sample_size": 5,
+                      "average": 11.0,
+                      "min": 11,
+                      "max": 11
+                    },
+                    "assistant": {
+                      "sample_size": 5,
+                      "average": 94.4,
+                      "min": 92,
+                      "max": 101
+                    }
+                  },
+                  "total_conversations": 610,
+                  "messages_per_conversation": {
+                    "average": 2.0,
+                    "max": 2,
+                    "min": 2
+                  },
+                  "total_messages": 100,
+                  "stats_generated_at": "2025-02-23T21:01:00.750638+00:00",
+                  "usage_timeline": {
+                    "last_7d": 50,
+                    "first_conversation": "2025-02-23T19:48:13.405391+00:00",
+                    "last_24h": 50,
+                    "last_conversation": "2025-02-23T19:55:13.683286+00:00",
+                    "last_30d": 50
+                  }
+                }
+              }
+            }
           },
-          "400": {
-            "description": "unexpected error",
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
             "content": {
               "application/json": {
                 "schema": {
@@ -130,66 +483,14 @@
       }
     }
   },
-  "components": {
-    "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      }
+  "tags": [
+    {
+      "name": "Health",
+      "description": "Health check endpoints"
     },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
-      }
+    {
+      "name": "Agents",
+      "description": "Endpoints for interacting with agents"
     }
-  }
+  ]
 }

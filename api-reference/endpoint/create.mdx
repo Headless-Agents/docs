@@ -1,4 +1,65 @@
 ---
-title: 'Create Plant'
-openapi: 'POST /plants'
+title: 'Call Agent'
+openapi: 'POST /call/{agent_id}'
 ---
+
+Call an agent to get a response to your request.
+
+### Endpoint
+
+```bash
+POST /call/{agent_id}
+```
+
+### Parameters
+
+<ParamField path="agent_id" type="string" required>
+  ID of the agent to call
+</ParamField>
+
+### Request Body
+
+<ParamField body="request" type="string" required>
+  The prompt or request to send to the agent
+</ParamField>
+
+<ParamField body="conversation_id" type="string">
+  Optional conversation ID for continuing an existing conversation
+</ParamField>
+
+### Response
+
+<ResponseField name="thread_id" type="string" required>
+  Unique identifier for this interaction thread
+</ResponseField>
+
+<ResponseField name="conversation_id" type="string" required>
+  Identifier for the conversation
+</ResponseField>
+
+<ResponseField name="agent_id" type="string" required>
+  ID of the agent that was called
+</ResponseField>
+
+<ResponseField name="success" type="boolean" required>
+  Whether the call was successful
+</ResponseField>
+
+<ResponseField name="response" type="string" required>
+  The agent's response text
+</ResponseField>
+
+<ResponseField name="function_result" type="object">
+  Optional structured data returned by the agent, null if no structured data
+</ResponseField>
+
+```json
+{
+  "thread_id": "50cc9455b84d48ffad6b4c9fd41b561e",
+  "conversation_id": "bc8e506e4a6f49ad",
+  "agent_id": "2ec10f28abac4e01",
+  "success": true,
+  "response": "I am a greeting assistant designed to help with welcoming users...",
+  "function_result": null
+}
+```
