@@ -1,0 +1,64 @@
+---
+title: 'Quickstart for Deployment'
+description: 'Get started with Headless Agents in minutes'
+icon: 'rocket'
+---
+--------------------------------
+
+## Create an account
+
+Sign up for a Headless Agents account at [headlessagents.ai](https://headlessagents.ai).
+
+## Navigate to the deploy module
+
+Navigate from the dashboard to the [deploy module](https://headlessagents.ai/dashboard/deploy).
+
+## Select your deployment type
+
+Select the type of agent you want to deploy:
+
+<AccordionGroup>
+  <Accordion icon="browser" title="Standard Deployment" defaultOpen={true}>
+    Create a new agent on Headless Agents. <br/>Skip to our [Standard Deployment Quickstart](/quickstart_deployment#standard-deployment-quickstart) to get started.
+  </Accordion>
+  <Accordion icon="house" title="Platform Deployment" defaultOpen={true}>
+    Deploy an agent built on another platform or server using webhooks or HTTP requests. Skip to our [Platform Deployment Quickstart](/quickstart_deployment#platform-deployment-quickstart) to get started.
+  </Accordion>
+</AccordionGroup>
+
+## Standard Deployment Quickstart 
+
+We reccomend you deploy one of our pre-built templates to get started. You can deploy the agent in just three clicks.
+
+To get started, navigate to the [deploy module](https://headlessagents.ai/dashboard/deploy).
+
+**1. Select a template from the dropdown menu.**
+
+**2. Test the function provided to the agent, this function will serve as a tool your agent can call if it chooses to.**
+
+  <Accordion icon="code" title="Function Notes" defaultOpen={true}>
+    - Agents built on Headless Agents can call python functions. Head over to the [Function Guide](/quickstart_deployment#function-guide) to learn more about function calling on Headless Agents.
+    - When the agent calls a function, it runs in a secure, cloud-based sandbox.
+    - If your function requires authentication, like an API key, add it to the [Secrets Manager](https://headlessagents.ai/dashboard/secrets) and it will be used by the agent when the function is called. 
+    - Visit the [Secrets Manager Guide](/dashboard/secrets) to learn more about how agents work with secrets.
+  </Accordion>
+
+**3. When the function test is successful, click 'Deploy Agent'!**
+<br/> _Note: If the function test is not successful, you can edit the function and try again._
+
+**Congratulations! You've deployed your first agent.**
+
+Head over to the [Call Agent Guide](/quickstart_deployment#call-agent-guide) to learn how to call your agent.
+
+To learn more, read the full guide: [Standard Deployment Guide](/quickstart_deployment#standard-deployment-guide).
+
+## Platform Deployment Quickstart
+
+Deploy an agent built on another platform or server using webhooks or HTTP requests.
+
+**1. Navigate to the [deploy module](https://headlessagents.ai/dashboard/deploy).**
+
+**2. Select 'Platform Deployment' from the dropdown menu.**
+
+
+
