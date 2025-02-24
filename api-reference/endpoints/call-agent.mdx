@@ -1,0 +1,87 @@
+---
+title: 'Call Agent'
+api: 'POST /call/{agent_id}'
+description: 'Send a request to an agent and get their response'
+---
+
+Send a request to an agent and get their response. This endpoint allows you to interact with a specific agent by providing a request message and optionally continuing an existing conversation.
+
+## Path Parameters
+
+<ParamField path="agent_id" type="string" required>
+  ID of the agent to call
+</ParamField>
+
+## Request Body
+
+<ParamField body="request" type="string" required>
+  The prompt or request to send to the agent
+</ParamField>
+
+<ParamField body="conversation_id" type="string">
+  Optional conversation ID for continuing an existing conversation
+</ParamField>
+
+## Response
+
+<ResponseField name="thread_id" type="string" required>
+  Unique identifier for this interaction thread
+</ResponseField>
+
+<ResponseField name="conversation_id" type="string" required>
+  Identifier for the conversation
+</ResponseField>
+
+<ResponseField name="agent_id" type="string" required>
+  ID of the agent that was called
+</ResponseField>
+
+<ResponseField name="success" type="boolean" required>
+  Whether the call was successful
+</ResponseField>
+
+<ResponseField name="response" type="string" required>
+  The agent's response text
+</ResponseField>
+
+<ResponseField name="function_result" type="object">
+  Optional structured data returned by the agent, null if no structured data
+</ResponseField>
+
+<RequestExample>
+```bash
+curl -X POST \
+  -H "X-API-Key: your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{"request": "What is the weather like in San Francisco?", "conversation_id": "bc8e506e4a6f49ad"}' \
+  https://api.headlessagents.ai/call/2ec10f28abac4e01
+```
+
+```python
+import requests
+
+response = requests.post(
+    'https://api.headlessagents.ai/call/2ec10f28abac4e01',
+    headers={
+        'X-API-Key': 'your_api_key'
+    },
+    json={
+        'request': 'What is the weather like in San Francisco?',
+        'conversation_id': 'bc8e506e4a6f49ad'
+    }
+)
+```
+</RequestExample>
+
+<ResponseExample>
+```json
+{
+  "thread_id": "50cc9455b84d48ffad6b4c9fd41b561e",
+  "conversation_id": "bc8e506e4a6f49ad",
+  "agent_id": "2ec10f28abac4e01",
+  "success": true,
+  "response": "I am a greeting assistant designed to help with welcoming users. I cannot provide weather information. For weather updates, I recommend checking a weather service or app.",
+  "function_result": null
+}
+```
+</ResponseExample> 

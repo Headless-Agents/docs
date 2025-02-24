@@ -1,0 +1,27 @@
+---
+title: 'Health Check'
+api: 'GET /health'
+description: 'Check if the API is up and running'
+---
+
+Simple endpoint to check if the API is up and running. This endpoint does not require authentication.
+
+## Response
+
+<ResponseField name="status" type="string">
+  The health status of the API. Will always be "healthy" when the API is functioning properly.
+</ResponseField>
+
+<RequestExample>
+```bash
+curl https://api.headlessagents.ai/health
+```
+</RequestExample>
+
+<ResponseExample>
+```json
+{
+  "status": "healthy"
+}
+```
+</ResponseExample> 

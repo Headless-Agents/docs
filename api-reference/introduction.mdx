@@ -1,33 +1,36 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Welcome to the Headless Agents API documentation'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+The Headless Agents API allows you to interact with AI agents programmatically. This API provides endpoints for health checking, calling agents, and retrieving agent statistics.
 
-## Welcome
+## Base URL
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+All API requests should be made to:
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+```bash
+https://api.headlessagents.ai
+```
 
-## Authentication
+## API Endpoints
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+The API provides the following main endpoints:
+
+- **Health Check**: Simple endpoint to verify API status
+- **Call Agent**: Send requests to an agent and get responses
+- **Agent Statistics**: Retrieve usage statistics for specific agents
+
+## Response Format
+
+All responses are returned in JSON format. Successful responses will contain the requested data, while error responses will include an error message in the following format:
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+{
+  "detail": "Error message describing what went wrong"
+}
 ```
+
+## Rate Limiting
+
+Please contact support for information about rate limits and usage quotas for your API key.

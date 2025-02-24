@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Headless Agents",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
@@ -18,12 +18,21 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:support@headlessagents.ai"
     }
   ],
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "url": "https://dashboard.headlessagents.ai"
+  },
+  "api": {
+    "mdx": {
+      "server": "https://api.headlessagents.ai",
+      "auth": {
+        "method": "key",
+        "name": "X-API-Key"
+      }
+    }
   },
   "tabs": [
     {
@@ -35,17 +44,12 @@
     {
       "name": "Documentation",
       "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "url": "https://headlessagents.ai/docs"
     },
     {
       "name": "Community",
       "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "url": "https://headlessagents.ai/community"
     }
   ],
   "navigation": [
@@ -58,34 +62,22 @@
       ]
     },
     {
-      "group": "Essentials",
+      "group": "API Reference",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "api-reference/introduction",
+        "api-reference/authentication"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "Endpoints",
       "pages": [
-        "api-reference/introduction"
-      ]
-    },
-    {
-      "group": "Endpoint Examples",
-      "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-reference/endpoints/health",
+        "api-reference/endpoints/call-agent",
+        "api-reference/endpoints/agent-stats"
       ]
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://linkedin.com/company/mintlify"
+    "github": "https://github.com/headlessagents"
   }
 }
