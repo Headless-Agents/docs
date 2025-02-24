@@ -1,107 +1,178 @@
 ---
-title: 'Development'
-description: 'Preview changes locally to update your docs'
+title: 'Development Guide'
+description: 'Learn how to integrate Headless Agents into your development workflow'
 ---
 
-<Info>
-  **Prerequisite**: Please install Node.js (version 19 or higher) before proceeding. <br />
-  Please upgrade to ```docs.json``` before proceeding and delete the legacy ```mint.json``` file.
-</Info>
+## SDK Installation
 
-Follow these steps to install and run Mintlify on your operating system:
+We provide SDKs for multiple programming languages to make integration easier.
 
-**Step 1**: Install Mintlify:
+### Python SDK
 
 <CodeGroup>
 
-  ```bash npm
-  npm i -g mintlify
-  ```
+```bash pip
+pip install headless-agents
+```
 
-```bash yarn
-yarn global add mintlify
+```bash poetry
+poetry add headless-agents
 ```
 
 </CodeGroup>
 
-**Step 2**: Navigate to the docs directory (where the `docs.json` file is located) and execute the following command:
-
-```bash
-mintlify dev
-```
-
-A local preview of your documentation will be available at `http://localhost:3000`.
-
-### Custom Ports
-
-By default, Mintlify uses port 3000. You can customize the port Mintlify runs on by using the `--port` flag. To run Mintlify on port 3333, for instance, use this command:
-
-```bash
-mintlify dev --port 3333
-```
-
-If you attempt to run Mintlify on a port that's already in use, it will use the next available port:
-
-```md
-Port 3000 is already in use. Trying 3001 instead.
-```
-
-## Mintlify Versions
-
-Please note that each CLI release is associated with a specific version of Mintlify. If your local website doesn't align with the production version, please update the CLI:
+### JavaScript/TypeScript SDK
 
 <CodeGroup>
 
 ```bash npm
-npm i -g mintlify@latest
+npm install @headless-agents/sdk
 ```
 
 ```bash yarn
-yarn global upgrade mintlify
+yarn add @headless-agents/sdk
 ```
 
 </CodeGroup>
 
-## Validating Links
+## Basic Usage
 
-The CLI can assist with validating reference links made in your documentation. To identify any broken links, use the following command:
+### Python Example
 
-```bash
-mintlify broken-links
+```python
+from headless_agents import HeadlessAgents
+
+# Initialize the client
+client = HeadlessAgents(api_key='your_api_key')
+
+# Make a simple call
+response = client.call_agent(
+    agent_id='your_agent_id',
+    request='Hello!'
+)
+print(response.text)
+
+# Start a conversation
+conversation = client.start_conversation(agent_id='your_agent_id')
+response1 = conversation.send('What is the weather like?')
+response2 = conversation.send('How about tomorrow?')  # Maintains context
 ```
 
-## Deployment
+### JavaScript/TypeScript Example
 
-<Tip>
-  Unlimited editors available under the [Pro
-  Plan](https://mintlify.com/pricing) and above.
-</Tip>
+```typescript
+import { HeadlessAgents } from '@headless-agents/sdk';
 
-If the deployment is successful, you should see the following:
+// Initialize the client
+const client = new HeadlessAgents('your_api_key');
 
-<Frame>
-  <img src="/images/checks-passed.png" style={{ borderRadius: '0.5rem' }} />
-</Frame>
+// Make a simple call
+const response = await client.callAgent({
+  agentId: 'your_agent_id',
+  request: 'Hello!'
+});
+console.log(response.text);
 
-## Code Formatting
+// Start a conversation
+const conversation = await client.startConversation('your_agent_id');
+const response1 = await conversation.send('What is the weather like?');
+const response2 = await conversation.send('How about tomorrow?'); // Maintains context
+```
 
-We suggest using extensions on your IDE to recognize and format MDX. If you're a VSCode user, consider the [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx) for syntax highlighting, and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) for code formatting.
+## Advanced Features
+
+### Error Handling
+
+```typescript
+try {
+  const response = await client.callAgent({
+    agentId: 'your_agent_id',
+    request: 'Hello!'
+  });
+} catch (error) {
+  if (error instanceof UnauthorizedError) {
+    console.error('Invalid API key');
+  } else if (error instanceof AgentNotFoundError) {
+    console.error('Agent not found');
+  } else {
+    console.error('An unexpected error occurred:', error);
+  }
+}
+```
+
+### Streaming Responses
+
+```python
+# Python streaming example
+for chunk in client.call_agent_stream(
+    agent_id='your_agent_id',
+    request='Tell me a long story'
+):
+    print(chunk.text, end='', flush=True)
+```
+
+```typescript
+// TypeScript streaming example
+const stream = await client.callAgentStream({
+  agentId: 'your_agent_id',
+  request: 'Tell me a long story'
+});
+
+for await (const chunk of stream) {
+  process.stdout.write(chunk.text);
+}
+```
+
+### Monitoring Usage
+
+```python
+# Get agent statistics
+stats = client.get_agent_stats('your_agent_id')
+print(f"Total conversations: {stats.total_conversations}")
+print(f"Average response time: {stats.response_time.average_seconds}s")
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="API Key Security">
+    - Never hardcode API keys in your source code
+    - Use environment variables or secure secret management
+    - Rotate API keys periodically
+    - Use different API keys for development and production
+  </Accordion>
+  
+  <Accordion title="Rate Limiting">
+    - Implement exponential backoff for retries
+    - Cache responses when appropriate
+    - Monitor your usage through the statistics endpoint
+    - Contact support if you need higher rate limits
+  </Accordion>
+
+  <Accordion title="Error Handling">
+    - Always wrap API calls in try-catch blocks
+    - Implement proper logging for errors
+    - Have fallback behavior for when the API is unavailable
+    - Monitor for and handle specific error types
+  </Accordion>
+</AccordionGroup>
 
 ## Troubleshooting
 
 <AccordionGroup>
-  <Accordion title='Error: Could not load the "sharp" module using the darwin-arm64 runtime'>
-
-    This may be due to an outdated version of node. Try the following:
-    1. Remove the currently-installed version of mintlify: `npm remove -g mintlify`
-    2. Upgrade to Node v19 or higher.
-    3. Reinstall mintlify: `npm install -g mintlify`
+  <Accordion title="Authentication Errors">
+    - Verify your API key is correct
+    - Check if the API key has the necessary permissions
+    - Ensure the API key is being sent in the X-API-Key header
+    - Verify you're using the correct environment (production/staging)
   </Accordion>
 
-  <Accordion title="Issue: Encountering an unknown error">
-  
-    Solution: Go to the root of your device and delete the \~/.mintlify folder. Afterwards, run `mintlify dev` again.
+  <Accordion title="Connection Issues">
+    - Check your network connection
+    - Verify the API endpoint is correct
+    - Ensure your firewall isn't blocking the connection
+    - Check our status page for any ongoing issues
   </Accordion>
 </AccordionGroup>
 
-Curious about what changed in the CLI version? [Check out the CLI changelog.](https://www.npmjs.com/package/mintlify?activeTab=versions)
+Need more help? Contact our [support team](mailto:support@headlessagents.ai) or join our [community Discord](https://discord.gg/headlessagents).
