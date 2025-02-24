@@ -333,7 +333,7 @@
                   "conversation_id": "bc8e506e4a6f49ad",
                   "agent_id": "2ec10f28abac4e01",
                   "success": true,
-                  "response": "I am a greeting assistant designed to help with welcoming users. I cannot provide Zillow links or real estate information. For Zillow listings, I recommend:\n\n1. Visiting Zillow.com directly\n2. Using Zillow's search function to find specific properties\n3. Contacting a real estate agent\n\nIs there anything else I can help you with regarding greetings or welcomes?",
+                  "response": "Hi there! How can I help you today?",
                   "function_result": null
                 }
               }
