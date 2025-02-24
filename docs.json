@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Headless Agents Docs",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#00B5B5",
+    "light": "#00B5B5",
+    "dark": "#00B5B5"
   },
   "favicon": "/favicon.svg",
   "navigation": {
