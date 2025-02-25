@@ -18,19 +18,7 @@
             "pages": [
               "introduction",
               "quickstart_deployment",
-              "quickstart_usage",
-              "development"
-            ]
-          },
-          {
-            "group": "Essentials",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "quickstart_usage"
             ]
           }
         ]
@@ -58,19 +46,25 @@
     "global": {
       "anchors": [
         {
+          "anchor": "Headless Agents",
+          "href": "https://headlessagents.ai",
+          "icon": "user-astronaut"
+        },
+        {
           "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
+          "href": "https://headlessagents.mintlify.app/introduction",
           "icon": "book-open-cover"
         },
+
         {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
+          "anchor": "API Reference",
+          "href": "https://headlessagents.mintlify.app/api-reference/introduction",
+          "icon": "code"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "GitHub",
+          "href": "https://github.com/headless-agents",
+          "icon": "github"
         }
       ]
     }
