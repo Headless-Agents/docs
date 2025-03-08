@@ -18,13 +18,142 @@ Navigate from the dashboard to the [deploy module](https://headlessagents.ai/das
 Select the type of agent you want to deploy:
 
 <AccordionGroup>
-  <Accordion icon="browser" title="Standard Deployment" defaultOpen={true}>
-    Create a new agent on Headless Agents. <br/>Skip to our [Standard Deployment Quickstart](/quickstart_deployment#standard-deployment-quickstart) to get started.
-  </Accordion>
   <Accordion icon="house" title="Platform Deployment" defaultOpen={true}>
     Deploy an agent built on another platform or server using webhooks or HTTP requests. Skip to our [Platform Deployment Quickstart](/quickstart_deployment#platform-deployment-quickstart) to get started.
   </Accordion>
+  <Accordion icon="browser" title="Standard Deployment" defaultOpen={true}>
+    Create a new agent on Headless Agents. <br/>Skip to our [Standard Deployment Quickstart](/quickstart_deployment#standard-deployment-quickstart) to get started.
+  </Accordion>
+
 </AccordionGroup>
+
+## Platform Deployment Quickstart
+
+Deploy an agent built on another platform or server using HTTP requests. Our enhanced platform deployment module makes it easy to deploy from any API-based service.
+
+### 1. Navigate to the [deploy](https://headlessagents.ai/dashboard/deploy) module and select <code>platform</code> from the deployment selector.
+
+<img src="/images/platform.png" alt="Platform Selection" width="150" />
+
+### 2. Copy the HTTP request from your platform's documentation or API reference.
+
+For example:
+
+```bash
+curl -X POST 'https://api.yourplatform.com/v1/agent/call' \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{"input": {"prompt": "Hello, world!", "style": "classic"}}'
+```
+<Tip>
+You can leave the <code>YOUR_API_KEY</code> placeholder in the HTTP request. We'll use the secrets manager to handle the authentication during the setup process.
+</Tip>
+
+<Tip>
+Ensure you have the fields configured the way you want them to be called by the agent, users calling the agent will only be able to pass through a single placeholder field. <br/> <br/> In this example, <code style={{color: '#0071e6', fontWeight: 'bold'}}>prompt</code> is likley the field that you will want to map the user input to, in that case the <code style={{color: '#0071e6', fontWeight: 'bold'}}>style</code> field will be continue to be set to <code>classic</code>. <br/> <br/> This will be configured during the setup process.
+</Tip>
+
+
+### 3. Begin deployment with the Deployment Assistant
+
+<Steps>
+  <Step title="Paste API details">
+    Paste the HTTP request from your platform into the deployment assistant. The assistant will automatically parse all necessary requirements to call your agent headlessly.
+    
+    ```bash
+    curl -X POST 'https://api.yourplatform.com/v1/agent/call' \
+      -H 'Authorization: Bearer YOUR_API_KEY' \
+      -H 'Content-Type: application/json' \
+      -d '{"input": {"prompt": "Hello, world!", "style": "classic"}}'
+    ```
+    
+    
+  </Step>
+  <Step title="Import an API key from the Secrets Manager">
+    If your request requires authentication, the deployment assistant will ask you to import an API key from the [Secrets Manager](https://headlessagents.ai/dashboard/secrets).
+
+    <img src="/images/import_api_key.png" alt="Import API Key" width="500" />
+  
+  </Step>
+  
+  <Step title="Test the connection">
+    The deployment assistant will ask for permission to send a test request to verify the connection. This ensures your API key and configuration are working correctly.
+
+    <img src="/images/test_connection.png" alt="Test Connection" width="500" />
+    
+    You'll see a success message when the test is complete, confirming that your external agent is accessible.
+  </Step>
+  
+  <Step title="Configure request placeholder mapping">
+    After a successful test, the deployment assistant will ask you to map the user's input to the correct parameter in your API request.
+
+    <img src="/images/request_notification.png" alt="Configure Request Placeholder Mapping" width="500" />
+    
+    This is where you will specify where the user's input will be passed through. 
+    
+    When the user sends a prompt to your agent, the prompt will be replace the <br/>
+    <code style={{color: '#FFFFFF', fontWeight: 'bold', backgroundColor: '#FF8B3E', padding: '2px 4px'}}>User Input</code> field in your API request.
+
+    Click the field you want to replace or drag the <code style={{color: '#FFFFFF', fontWeight: 'bold', backgroundColor: '#FF8B3E', padding: '2px 4px'}}>User Input</code> placeholder to the correct value position in your API request.
+
+    <img src="/images/request_placeholder.png" alt="Configure Request Placeholder Mapping" width="500" />
+
+  </Step>
+  
+  <Step title="Test user input">
+    Next, you'll be asked to run another test, but this time with a sample user input passing through.
+
+    <img src="/images/test_user_input_notification.png" alt="Test User Input" width="500" />
+
+    Enter a sample prompt to replace the <code style={{color: '#FFFFFF', fontWeight: 'bold', backgroundColor: '#FF8B3E', padding: '2px 4px'}}>User Input</code> placeholder in the test. 
+    
+  <img src="/images/enter_user_input_box.png" alt="Test User Input" width="300" />
+    
+    The deployment assistant will send another test to ensure everything is working as expected.
+  </Step>
+  
+  <Step title="Configure response handling">
+    After a successful test, the deployment assistant will ask you to specify what part of the API response you want to return to the user.
+
+    <img src="/images/configure_response_notification.png" alt="Configure Response Handling" width="500" />
+    
+    This ensures users receive only the relevant information from your agent.
+
+    Click the field you want to return to the user in the <code style={{color: '#00B5B5', fontWeight: 'bold'}}>response</code> field of the agents response.
+
+    You can return a single field:
+
+    <img src="/images/single_field_response.png" alt="Single Field Response" width="500" />
+    
+    Or select multiple fields to return:
+
+    <img src="/images/multi_field_response.png" alt="Multi Field Response" width="500" />
+  </Step>
+  
+  <Step title="Add a name and description">
+  Finally, add a name and description for your agent.
+
+  <img src="/images/enter_name.png" alt="Enter Name" width="500" />
+  <img src="/images/enter_description.png" alt="Enter Description" width="500" />
+  </Step>
+  
+  <Step title="Deploy your agent">
+    Your agent is now ready to be deployed. Click <code style={{color: '#FFFFFF', fontWeight: 'bold', backgroundColor: '#00B74A', padding: '2px 4px'}}>Deploy</code>!
+
+    <img src="/images/deploy_request.png" alt="Deploy Request" width="500" />
+    <img src="/images/deploy_success.png" alt="Deploy Success" width="500" />
+    
+    Go to the [dashboard](https://headlessagents.ai/dashboard) to view your deployed agent.
+
+    <img src="/images/deployed_agent.png" alt="Deployed Agent" width="500" />
+  </Step>
+</Steps>
+
+**Congratulations! You've deployed your platform agent.**
+
+Your agent is now available anywhere!
+
+--------------------------------
 
 ## Standard Deployment Quickstart 
 
@@ -50,13 +179,59 @@ Head over to the [Call Agent Guide](/quickstart_deployment#call-agent-guide) to 
 
 To learn more, read the full guide: [Standard Deployment Guide](/quickstart_deployment#standard-deployment-guide).
 
-## Platform Deployment Quickstart
-
-Deploy an agent built on another platform or server using webhooks or HTTP requests.
-
-**1. Navigate to the [deploy module](https://headlessagents.ai/dashboard/deploy).**
-
-**2. Select 'Platform Deployment' from the dropdown menu.**
+--------------------------------
 
 
 
+```python
+# Example: Call your newly deployed agent
+from headlessagents import HeadlessAgents
+
+client = HeadlessAgents(api_key='your_api_key')
+response = client.call_agent(
+    agent_id='your_agent_id',
+    request='a cat in a hat'
+)
+print(response.text)  # For text responses
+# or
+print(response.url)   # For image URLs or other media
+```
+
+## Platform Integration Examples
+
+<AccordionGroup>
+  <Accordion icon="image" title="Replicate Integration" defaultOpen={true}>
+    Easily deploy image generation models from Replicate:
+    
+    1. Copy the HTTP request from Replicate's API documentation
+    2. Paste it into our deployment assistant
+    3. Map user input to the "prompt" parameter
+    4. Configure the response to return the image URL
+    
+    Your users can now generate images by simply sending text prompts to your headless agent.
+  </Accordion>
+  
+  <Accordion icon="message-bot" title="OpenAI Integration">
+    Deploy custom GPT models or DALL-E:
+    
+    1. Copy the API request format from OpenAI's documentation
+    2. Configure authentication using your saved API key
+    3. Map user input to the appropriate parameter
+    4. Select which parts of the response to return
+    
+    This allows you to provide OpenAI's capabilities through a simplified, consistent interface.
+  </Accordion>
+  
+  <Accordion icon="server" title="Custom API Integration">
+    Connect to any HTTP-based AI service:
+    
+    1. Prepare your API request format
+    2. Configure authentication (API keys, OAuth, etc.)
+    3. Map user inputs to the appropriate request parameters
+    4. Define response handling to extract the relevant information
+    
+    This flexibility allows you to deploy virtually any AI service as a headless agent.
+  </Accordion>
+</AccordionGroup>
+
+To learn more about advanced platform integrations, visit our [Platform Integration Guide](/essentials/platform-integration).
